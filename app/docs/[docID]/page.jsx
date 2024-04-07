@@ -108,7 +108,7 @@ function page({ params }) {
           theme="light"
         />
         <RoomProvider id={params.docID} initialPresence={{}}>
-          <ClientSideSuspense fallback="Waiting…">
+          <ClientSideSuspense fallback="Loading…">
             {() => (
               <div>
                 <div className="px-5 pt-5 flex justify-between bg-slate-100 border-b-4 border-b-slate-300">
