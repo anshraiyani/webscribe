@@ -96,7 +96,7 @@ const page = () => {
         theme="light"
       />
       {openForm && (
-        <div className="overlay absolute bottom-1/4 left-0 w-full h-full flex justify-center items-center z-20">
+        <div className="absolute bottom-1/4 left-0 w-full h-full flex justify-center items-center z-20">
           <form className="bg-gray-200 p-5 shadow-xl rounded-md">
             <div className="mb-4">
               <label
