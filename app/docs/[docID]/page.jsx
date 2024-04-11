@@ -163,7 +163,7 @@ function page({ params }) {
                       </div>
                     )}
                     {openDropdown ? (
-                          <div className="z-20 absolute top-16 right-5 w-60 bg-slate-200 py-5 px-2 rounded-xl shadow-2xl flex flex-col gap-4 border border-black">
+                          <div className="z-20 absolute top-1/4 w-60 bg-slate-200 py-5 px-2 rounded-xl shadow-2xl flex flex-col gap-4 border border-black">
                             <input
                               type="email"
                               placeholder="Enter email"
