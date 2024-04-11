@@ -106,8 +106,7 @@ function page({ params }) {
   }, []);
 
   return (
-    docData &&
-    user && (
+    docData && (
       <>
         <ToastContainer
           position="top-center"
@@ -124,7 +123,7 @@ function page({ params }) {
         <RoomProvider id={params.docID} initialPresence={{}}>
           <ClientSideSuspense fallback="Loading…">
             {() => (
-              <div>
+              <div className="relative">
                 <div className="px-5 pt-5 flex justify-between bg-slate-100 border-b-4 border-b-slate-300">
                   <div>
                     <h1 className="font-inter font-bold text-3xl">
@@ -149,7 +148,7 @@ function page({ params }) {
                   </div>
                   <div className="flex">
                     <Avatars />
-                    {user._id === docData.doc.owner && (
+                    {user?._id === docData.doc.owner && (
                       <div>
                         <button
                           className="outline_btn"
@@ -161,8 +160,10 @@ function page({ params }) {
                         >
                           Add Users
                         </button>
-                        {openDropdown ? (
-                          <div className="z-10 absolute top-16 right-5 w-60 bg-slate-200 py-5 px-2 rounded-xl shadow-2xl flex flex-col gap-4 border border-black">
+                      </div>
+                    )}
+                    {openDropdown ? (
+                          <div className="z-20 absolute top-16 right-5 w-60 bg-slate-200 py-5 px-2 rounded-xl shadow-2xl flex flex-col gap-4 border border-black">
                             <input
                               type="email"
                               placeholder="Enter email"
@@ -187,8 +188,6 @@ function page({ params }) {
                             </div>
                           </div>
                         ):<></>}
-                      </div>
-                    )}
                   </div>
                 </div>
                 <CollaborativeEditor />
