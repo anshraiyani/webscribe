@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { RoomProvider } from "@/liveblocks.config";
 import CollaborativeEditor from "@/components/CollaborativeEditor";
@@ -105,7 +106,8 @@ function page({ params }) {
   }, []);
 
   return (
-    docData && user && (
+    docData &&
+    user && (
       <>
         <ToastContainer
           position="top-center"
@@ -147,42 +149,46 @@ function page({ params }) {
                   </div>
                   <div className="flex">
                     <Avatars />
-                    {user._id === docData.doc.owner && <div>
-                      <button
-                        className="outline_btn"
-                        onClick={() =>
-                          setOpenDropdown(() => setOpenDropdown(true))
-                        }
-                      >
-                        Add Users
-                      </button>
-                      {openDropdown && (
-                        <div className="absolute top-16 right-5 w-60 bg-slate-200 py-5 px-2 rounded-xl shadow-2xl flex flex-col gap-4 z-50 border border-black">
-                          <input
-                            type="email"
-                            placeholder="Enter email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="search_input"
-                          />
-                          <div className="w-full flex justify-evenly">
-                            <button
-                              className="black_btn"
-                              type="button"
-                              onClick={() => handleAddUser()}
-                            >
-                              ADD
-                            </button>
-                            <button
-                              className="outline_btn"
-                              onClick={(prev) => setOpenDropdown(!prev)}
-                            >
-                              CANCEL
-                            </button>
+                    {user._id === docData.doc.owner && (
+                      <div>
+                        <button
+                          className="outline_btn"
+                          onClick={() =>
+                            setOpenDropdown(() =>
+                              setOpenDropdown((prev) => !prev)
+                            )
+                          }
+                        >
+                          Add Users
+                        </button>
+                        {openDropdown ? (
+                          <div className="z-10 absolute top-16 right-5 w-60 bg-slate-200 py-5 px-2 rounded-xl shadow-2xl flex flex-col gap-4 border border-black">
+                            <input
+                              type="email"
+                              placeholder="Enter email"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
+                              className="search_input"
+                            />
+                            <div className="w-full flex justify-evenly">
+                              <button
+                                className="black_btn"
+                                type="button"
+                                onClick={() => handleAddUser()}
+                              >
+                                ADD
+                              </button>
+                              <button
+                                className="outline_btn"
+                                onClick={(prev) => setOpenDropdown(!prev)}
+                              >
+                                CANCEL
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>}
+                        ):<></>}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <CollaborativeEditor />
