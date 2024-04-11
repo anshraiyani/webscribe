@@ -11,6 +11,7 @@ function page({ params }) {
   const [docData, setDocData] = useState(null);
   const [openDropdown, setOpenDropdown] = useState(false);
   const [email, setEmail] = useState("");
+  const [user, setUser] = useState(null);
 
   const fetchDocumentData = async (docID) => {
     try {
@@ -88,12 +89,23 @@ function page({ params }) {
     }
   };
 
+  const fetchMe = async () => {
+    try {
+      const response = await fetch("/api/users/me");
+      const data = await response.json();
+      setUser(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchDocumentData(params.docID);
+    fetchMe();
   }, []);
 
   return (
-    docData && (
+    docData && user && (
       <>
         <ToastContainer
           position="top-center"
@@ -135,7 +147,7 @@ function page({ params }) {
                   </div>
                   <div className="flex">
                     <Avatars />
-                    <div>
+                    {user._id === docData.doc.owner && <div>
                       <button
                         className="outline_btn"
                         onClick={() =>
@@ -145,7 +157,7 @@ function page({ params }) {
                         Add Users
                       </button>
                       {openDropdown && (
-                        <div className="absolute top-16 right-5 w-60 bg-slate-200 py-5 px-2 rounded-xl shadow-2xl flex flex-col gap-4 z-10 border border-black">
+                        <div className="absolute top-16 right-5 w-60 bg-slate-200 py-5 px-2 rounded-xl shadow-2xl flex flex-col gap-4 z-50 border border-black">
                           <input
                             type="email"
                             placeholder="Enter email"
@@ -170,7 +182,7 @@ function page({ params }) {
                           </div>
                         </div>
                       )}
-                    </div>
+                    </div>}
                   </div>
                 </div>
                 <CollaborativeEditor />

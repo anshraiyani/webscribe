@@ -26,6 +26,18 @@ const page = () => {
   };
 
   const createDoc = async () => {
+    if (title.length === 0) {
+      return toast.error("Title cannot be empty", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
     try {
       const response = await fetch("/api/docs/create", {
         method: "POST",
@@ -77,6 +89,79 @@ const page = () => {
     }
   };
 
+  const deleteDoc = async (docID) => {
+    try {
+      const response = await fetch("/api/docs/delete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          docID: docID,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("document deleted!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        fetchDocs(user._id);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateDoc = async (docID, newTitle) => {
+    if (newTitle.length === 0) {
+      return toast.error("title cannot be empty!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    try {
+      const response = await fetch("/api/docs/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          docID: docID,
+          title: newTitle,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("document updated!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        fetchDocs(user._id);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchMe();
   }, []);
@@ -103,7 +188,7 @@ const page = () => {
                 htmlFor="title"
                 className="block text-gray-700 font-bold mb-2 font-satoshi"
               >
-                Title
+                Edit Title
               </label>
               <input
                 id="title"
@@ -134,12 +219,19 @@ const page = () => {
           </form>
         </div>
       )}
+
       <div className={`${openForm ? "blur-sm" : ""}`}>
         <NavBar setOpenForm={setOpenForm} />
         <hr className="h-0.5 mx-8 my-2 bg-gray-200 border-0 dark:bg-gray-400" />
       </div>
-      <div className={`${openForm ? "disabled" : ""}`}>
-        {docList && <UserDocumentList docList={docList} />}
+      <div className={`${openForm ? "blur-sm" : ""}`}>
+        {docList && (
+          <UserDocumentList
+            docList={docList}
+            deleteDoc={deleteDoc}
+            updateDoc={updateDoc}
+          />
+        )}
       </div>
     </>
   );

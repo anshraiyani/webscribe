@@ -24,7 +24,7 @@ function NavBar({setOpenForm}) {
       <div className="flex gap-5">
         <button className="black_btn" onClick={()=>setOpenForm(true)}>CREATE DOC</button>
         <button className="outline_btn" onClick={handleLogout}>
-          {loading ? "SIGNIN OUT" : "SIGN OUT"}
+          SIGN OUT
         </button>
       </div>
     </div>
