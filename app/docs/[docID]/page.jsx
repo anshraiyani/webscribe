@@ -49,6 +49,7 @@ function page({ params }) {
       if (response.ok) {
         showToast("success", data.message);
         setEmail("");
+        setOpenDropdown((prev) => !prev);
       } else {
         showToast("error", data.error);
       }
@@ -124,7 +125,7 @@ function page({ params }) {
           <ClientSideSuspense fallback="Loading…">
             {() => (
               <div className="relative">
-                <div className="px-5 pt-5 flex justify-between bg-slate-100 border-b-4 border-b-slate-300">
+                <div className="px-5 py-2 flex justify-between bg-slate-100 border-b-4 border-b-slate-300">
                   <div>
                     <h1 className="font-inter font-bold text-3xl">
                       {docData.doc.title}
@@ -146,24 +147,12 @@ function page({ params }) {
                         .slice(-2)}
                     </h1>
                   </div>
-                  <div className="flex">
+                  <div className="flex items-center">
                     <Avatars />
                     {user?._id === docData.doc.owner && (
                       <div>
-                        <button
-                          className="outline_btn"
-                          onClick={() =>
-                            setOpenDropdown(() =>
-                              setOpenDropdown((prev) => !prev)
-                            )
-                          }
-                        >
-                          Add Users
-                        </button>
-                      </div>
-                    )}
-                    {openDropdown ? (
-                          <div className="z-20 absolute top-1/4 w-60 bg-slate-200 py-5 px-2 rounded-xl shadow-2xl flex flex-col gap-4 border border-black">
+                        {openDropdown ? (
+                          <div className="w-60 bg-slate-200 py-2 px-2 rounded-xl shadow-2xl flex flex-col gap-4 border border-black">
                             <input
                               type="email"
                               placeholder="Enter email"
@@ -187,7 +176,20 @@ function page({ params }) {
                               </button>
                             </div>
                           </div>
-                        ):<></>}
+                        ) : (
+                          <button
+                            className="outline_btn"
+                            onClick={() =>
+                              setOpenDropdown(() =>
+                                setOpenDropdown((prev) => !prev)
+                              )
+                            }
+                          >
+                            Add Users
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <CollaborativeEditor />

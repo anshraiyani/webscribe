@@ -69,7 +69,7 @@ const DocCard = ({
           className="cursor-pointer flex px-1 justify-end"
           onClick={() => setToggle(!toggle)}
         >
-          <h1 className="font-bold font-sans text-xl">. . .</h1>
+          <h1 className="font-bold font-sans text-xl hover:text-red-700 hover:text-2xl">. . .</h1>
           {toggle ? (
             <div className="absolute mt-8 bg-blue-200 border-black border rounded-md shadow-xl">
               <h1

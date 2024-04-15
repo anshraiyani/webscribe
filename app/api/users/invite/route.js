@@ -11,6 +11,23 @@ export const POST = async (request) => {
     if (!user) {
       return NextResponse.json({ error: "user not found" }, { status: 404 });
     }
+
+    const userdoc = await Docs.findById(docID);
+
+    if (userdoc.owner.toString() === user._id.toString()) {
+      return NextResponse.json(
+        { error: "User is the owner of the document!" },
+        { status: 403 }
+      );
+    }
+
+    if (userdoc.collaborators.includes(user._id)) {
+      return NextResponse.json(
+        { error: "User is already a collaborator of the document" },
+        { status: 409 }
+      );
+    }
+
     const doc = await Docs.updateOne(
       { _id: docID },
       { $push: { collaborators: user._id } }
