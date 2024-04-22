@@ -124,59 +124,34 @@ function page({ params }) {
         <RoomProvider id={params.docID} initialPresence={{}}>
           <ClientSideSuspense fallback="Loading…">
             {() => (
-              <div className="relative">
-                <div className="px-5 py-2 flex justify-between bg-slate-100 border-b-4 border-b-slate-300">
-                  <div>
-                    <h1 className="font-inter font-bold text-3xl">
-                      {docData.doc.title}
-                    </h1>
-                    <h1 className="font-inter font-light text-md text-gray-500">
-                      created on{" "}
-                      {new Date(docData.doc.createdOn)
-                        .getDate()
-                        .toString()
-                        .padStart(2, "0")}
-                      /
-                      {(new Date(docData.doc.createdOn).getMonth() + 1)
-                        .toString()
-                        .padStart(2, "0")}
-                      /
-                      {new Date(docData.doc.createdOn)
-                        .getFullYear()
-                        .toString()
-                        .slice(-2)}
-                    </h1>
-                  </div>
-                  <div className="flex items-center">
-                    <Avatars />
-                    {user?._id === docData.doc.owner && (
-                      <div>
-                        {openDropdown ? (
-                          <div className="w-60 bg-slate-200 py-2 px-2 rounded-xl shadow-2xl flex flex-col gap-4 border border-black">
-                            <input
-                              type="email"
-                              placeholder="Enter email"
-                              value={email}
-                              onChange={(e) => setEmail(e.target.value)}
-                              className="search_input"
-                            />
-                            <div className="w-full flex justify-evenly">
-                              <button
-                                className="black_btn"
-                                type="button"
-                                onClick={() => handleAddUser()}
-                              >
-                                ADD
-                              </button>
-                              <button
-                                className="outline_btn"
-                                onClick={(prev) => setOpenDropdown(!prev)}
-                              >
-                                CANCEL
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
+              <div className="h-full w-full">
+                <div className={`${openDropdown ? "blur-sm" : ""} relative`}>
+                  <div className="px-5 py-2 flex justify-between bg-slate-100 border-b-4 border-b-slate-300">
+                    <div>
+                      <h1 className="font-inter font-bold text-3xl">
+                        {docData.doc.title}
+                      </h1>
+                      <h1 className="font-inter font-light text-md text-gray-500">
+                        created on{" "}
+                        {new Date(docData.doc.createdOn)
+                          .getDate()
+                          .toString()
+                          .padStart(2, "0")}
+                        /
+                        {(new Date(docData.doc.createdOn).getMonth() + 1)
+                          .toString()
+                          .padStart(2, "0")}
+                        /
+                        {new Date(docData.doc.createdOn)
+                          .getFullYear()
+                          .toString()
+                          .slice(-2)}
+                      </h1>
+                    </div>
+                    <div className="flex items-center">
+                      <Avatars />
+                      {user?._id === docData.doc.owner && (
+                        <div>
                           <button
                             className="outline_btn"
                             onClick={() =>
@@ -187,12 +162,38 @@ function page({ params }) {
                           >
                             Add Users
                           </button>
-                        )}
-                      </div>
-                    )}
+                        </div>
+                      )}
+                    </div>
                   </div>
+                  <CollaborativeEditor />
                 </div>
-                <CollaborativeEditor />
+                {openDropdown && (
+                  <div className="w-60 bg-slate-200 py-2 px-2 rounded-xl shadow-2xl flex flex-col gap-4 border border-black z-10 absolute top-1/2 left-1/2">
+                    <input
+                      type="email"
+                      placeholder="Enter email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="search_input"
+                    />
+                    <div className="w-full flex justify-evenly">
+                      <button
+                        className="black_btn"
+                        type="button"
+                        onClick={() => handleAddUser()}
+                      >
+                        ADD
+                      </button>
+                      <button
+                        className="outline_btn"
+                        onClick={(prev) => setOpenDropdown(!prev)}
+                      >
+                        CANCEL
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </ClientSideSuspense>
